@@ -1,0 +1,100 @@
+# V2V Email Server Documentation Rules
+
+## Documentation Reference Requirements
+
+1. MANDATORY DOCUMENTATION CHECKS
+   - Before making ANY changes to the codebase, you MUST read relevant documentation in /docs/
+   - Before answering ANY questions about the system, you MUST reference existing documentation
+   - If documentation is missing for the topic at hand, you MUST create it before proceeding
+
+2. DOCUMENTATION STRUCTURE
+   - All documentation MUST be in Markdown format
+   - All documentation MUST be stored in the /docs directory
+   - Each major component MUST have its own documentation file
+   - Cross-references between docs MUST use relative links
+
+3. DOCUMENTATION CONSISTENCY
+   - Architecture decisions MUST align with architecture.md
+   - Deployment steps MUST align with deployment.md
+   - Timeline estimates MUST align with timeline.md
+   - Security measures MUST align with challenges.md
+
+4. DOCUMENTATION UPDATES
+   - ANY code change MUST be accompanied by corresponding documentation updates
+   - When updating docs, you MUST maintain the existing structure
+   - When adding new features, you MUST update all affected documentation files
+   - Documentation MUST be updated in the same commit/PR as code changes
+
+5. DOCUMENTATION VALIDATION
+   - Before suggesting changes, you MUST verify they don't conflict with existing docs
+   - When updating timeline.md, you MUST ensure dependencies are maintained
+   - When updating architecture.md, you MUST ensure backward compatibility
+   - When updating deployment.md, you MUST ensure all steps remain valid
+
+6. DOCUMENTATION COMPLETENESS
+   The following aspects MUST always be documented:
+   - API changes (api-spec.md)
+   - Infrastructure changes (email-infrastructure.md)
+   - Deployment updates (deployment.md)
+   - Security considerations (challenges.md)
+   - Monitoring changes (monitoring.md)
+   - DNS configuration changes (dns-setup.md)
+
+7. DOCUMENTATION QUALITY
+   All documentation MUST:
+   - Be clear and concise
+   - Include examples where appropriate
+   - Use consistent terminology
+   - Maintain the established formatting
+   - Include rationale for significant decisions
+
+8. VERSION CONTROL
+   - Documentation versions MUST match code versions
+   - Breaking changes MUST be clearly marked
+   - Deprecated features MUST be noted
+   - Migration guides MUST be provided for major changes
+
+9. ERROR HANDLING
+   If documentation is:
+   - Missing: CREATE it before proceeding
+   - Outdated: UPDATE it before making changes
+   - Incorrect: FIX it and verify related docs
+   - Incomplete: COMPLETE it before continuing
+
+10. COMMUNICATION
+    - ALL responses to users MUST reference relevant documentation
+    - When suggesting changes, you MUST cite relevant docs
+    - When explaining features, you MUST quote from docs
+    - When troubleshooting, you MUST follow documented procedures
+
+## Enforcement
+
+These rules are MANDATORY and non-negotiable. Any agent MUST:
+1. Read these rules before making changes
+2. Follow these rules without exception
+3. Maintain documentation integrity
+4. Prioritize documentation accuracy
+5. Never bypass documentation requirements
+
+## Documentation Map
+
+ALWAYS check these core documents:
+- README.md: Project overview and quick start
+- architecture.md: System design and components
+- deployment.md: Setup and deployment procedures
+- challenges.md: Known issues and solutions
+- timeline.md: Project schedule and milestones
+- api-spec.md: API documentation
+- monitoring.md: System monitoring details
+- dns-setup.md: DNS configuration guide
+
+## Violation Handling
+
+If these rules are violated:
+1. STOP current operation
+2. REVIEW affected documentation
+3. FIX documentation issues
+4. VERIFY documentation consistency
+5. RESUME operation only after documentation is correct
+
+Remember: Documentation is not optional - it is a critical part of the system.

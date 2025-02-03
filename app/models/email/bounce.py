@@ -4,10 +4,11 @@ Bounce model for tracking email bounces.
 from typing import Optional
 from uuid import UUID, uuid4
 
-from sqlalchemy import String, Text, ForeignKey, Enum
+from sqlalchemy import ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.enums import BounceType
+from app.core.types import StrictString
 from app.models.base import Base
 
 
@@ -35,19 +36,19 @@ class Bounce(Base):
         index=True,
     )
     status_code: Mapped[Optional[str]] = mapped_column(
-        String(50),
+        StrictString(50),
         nullable=True,
     )
     diagnostic_code: Mapped[Optional[str]] = mapped_column(
-        String(255),
+        StrictString(255),
         nullable=True,
     )
     description: Mapped[str] = mapped_column(
-        Text,
+        StrictString,
         nullable=False,
     )
     raw_response: Mapped[Optional[str]] = mapped_column(
-        Text,
+        StrictString,
         nullable=True,
     )
 

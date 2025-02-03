@@ -4,9 +4,10 @@ Analytics model for tracking email statistics.
 from datetime import date
 from uuid import UUID
 
-from sqlalchemy import String, Integer, Date, ForeignKey
+from sqlalchemy import Integer, Date, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.core.types import StrictString
 from app.models.base import Base
 
 
@@ -64,7 +65,7 @@ class EmailAnalytics(Base):
         nullable=False,
     )
     template_name: Mapped[str] = mapped_column(
-        String(100),
+        StrictString(100),
         nullable=False,
         index=True,
     )

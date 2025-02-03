@@ -1,15 +1,17 @@
 """
 Email model for tracking sent emails.
 """
-from typing import Optional
+from typing import Optional, Dict
 from uuid import UUID, uuid4
 
-from sqlalchemy import String, Text, Boolean, ForeignKey, Enum
+from sqlalchemy import Boolean, ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.enums import EmailStatus
+from app.core.types import StrictString, JSONType
 from app.models.base import Base
 from app.models.email.mixins import EmailTrackingMixin
+from app.schemas.email import EmailSender, EmailRecipient, EmailTemplateVariables
 
 
 class Email(EmailTrackingMixin, Base):
@@ -41,28 +43,36 @@ class Email(EmailTrackingMixin, Base):
         index=True,
     )
     from_email: Mapped[str] = mapped_column(
-        String(255),
+        StrictString(255),
         nullable=False,
     )
     to_email: Mapped[str] = mapped_column(
-        String(255),
+        StrictString(255),
         nullable=False,
         index=True,
     )
     subject: Mapped[str] = mapped_column(
-        String(255),
+        StrictString(255),
         nullable=False,
     )
     body_html: Mapped[str] = mapped_column(
-        Text,
+        StrictString,
         nullable=False,
     )
     body_text: Mapped[Optional[str]] = mapped_column(
-        Text,
+        StrictString,
         nullable=True,
     )
-    variables: Mapped[Optional[str]] = mapped_column(
-        Text,  # JSON string of variables used
+    variables: Mapped[Optional[Dict]] = mapped_column(
+        JSONType(schema=EmailTemplateVariables),
+        nullable=True,
+    )
+    sender_info: Mapped[Optional[Dict]] = mapped_column(
+        JSONType(schema=EmailSender),
+        nullable=True,
+    )
+    recipient_info: Mapped[Optional[Dict]] = mapped_column(
+        JSONType(schema=EmailRecipient),
         nullable=True,
     )
     retry_count: Mapped[int] = mapped_column(

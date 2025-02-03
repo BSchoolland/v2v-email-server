@@ -1,14 +1,16 @@
 """
 Email template model.
 """
-from typing import Optional
+from typing import Optional, Dict
 from uuid import UUID, uuid4
 
-from sqlalchemy import String, Text, Boolean, ForeignKey
+from sqlalchemy import Boolean, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.core.types import StrictString, JSONType
 from app.models.base import Base
 from app.models.email.mixins import EmailTrackingMixin
+from app.schemas.email import EmailVariables
 
 
 class EmailTemplate(EmailTrackingMixin, Base):
@@ -29,19 +31,19 @@ class EmailTemplate(EmailTrackingMixin, Base):
         index=True,
     )
     name: Mapped[str] = mapped_column(
-        String(100),
+        StrictString(100),
         nullable=False,
     )
     subject: Mapped[str] = mapped_column(
-        String(255),
+        StrictString(255),
         nullable=False,
     )
     body_html: Mapped[str] = mapped_column(
-        Text,
+        StrictString,
         nullable=False,
     )
     body_text: Mapped[Optional[str]] = mapped_column(
-        Text,
+        StrictString,
         nullable=True,
     )
     is_active: Mapped[bool] = mapped_column(
@@ -50,11 +52,11 @@ class EmailTemplate(EmailTrackingMixin, Base):
         nullable=False,
     )
     description: Mapped[Optional[str]] = mapped_column(
-        String(500),
+        StrictString(500),
         nullable=True,
     )
-    variables: Mapped[Optional[str]] = mapped_column(
-        Text,  # JSON string of required variables
+    variables: Mapped[Optional[Dict]] = mapped_column(
+        JSONType(schema=EmailVariables),
         nullable=True,
     )
 

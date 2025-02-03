@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [tool.black]
 line-length = 88
 target-version = ['py311']
@@ -22,6 +26,5 @@ check_untyped_defs = true
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q --cov=app --cov-report=term-missing"
-testpaths = [
-    "tests",
-] 
+testpaths = ["tests"]
+pythonpath = "." 

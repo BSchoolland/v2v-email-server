@@ -27,7 +27,7 @@ async def create_api_key(
     contact_email: str,
     description: Optional[str] = None,
     client_id: Optional[UUID] = None,
-    session: AsyncSession = Depends(get_session),
+    db: AsyncSession = Depends(get_session),
 ) -> str:
     """Create or update a client with a new API key."""
     api_key = generate_api_key()
@@ -35,7 +35,7 @@ async def create_api_key(
     if client_id:
         # Update existing client
         stmt = select(Client).where(Client.id == client_id)
-        result = await session.execute(stmt)
+        result = await db.execute(stmt)
         client = result.scalar_one_or_none()
         if not client:
             raise HTTPException(
@@ -52,19 +52,19 @@ async def create_api_key(
             description=description,
             api_key=api_key,
         )
-        session.add(client)
+        db.add(client)
 
-    await session.commit()
+    await db.commit()
     return api_key
 
 
 async def get_client_by_api_key(
     api_key: str = Depends(API_KEY_HEADER),
-    session: AsyncSession = Depends(get_session),
+    db: AsyncSession = Depends(get_session),
 ) -> Client:
     """Get a client by API key."""
     stmt = select(Client).where(Client.api_key == api_key)
-    result = await session.execute(stmt)
+    result = await db.execute(stmt)
     client = result.scalar_one_or_none()
 
     if not client:

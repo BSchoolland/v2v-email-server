@@ -4,6 +4,7 @@ Database utilities.
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 import os
+from pathlib import Path
 
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
@@ -11,22 +12,24 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from app.core.config import settings
+# Create data directory if it doesn't exist
+data_dir = Path("data")
+data_dir.mkdir(exist_ok=True)
 
 # Create async engine
 if os.getenv("TESTING"):
-    # Use SQLite for testing
+    # Use in-memory SQLite for testing
     engine = create_async_engine(
         "sqlite+aiosqlite:///:memory:",
         echo=False,
         future=True,
     )
 else:
-    # Use PostgreSQL for production
+    # Use file-based SQLite for production
     engine = create_async_engine(
-        settings.SQLALCHEMY_DATABASE_URI.replace("postgresql://", "postgresql+asyncpg://"),
+        "sqlite+aiosqlite:///data/v2v_email.db",
         echo=False,  # Set to True for SQL query logging
-        pool_pre_ping=True,
+        future=True,
     )
 
 # Create async session factory

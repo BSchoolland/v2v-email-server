@@ -33,33 +33,87 @@ This email server implementation provides:
 - [`/docs/challenges.md`](docs/challenges.md) - Key challenges and mitigation strategies
 - [`/docs/dns-setup.md`](docs/dns-setup.md) - DNS configuration guide
 
-## Quick Start
-
-1. Clone the repository
-2. Copy `.env.example` to `.env` and configure environment variables
-3. Run `docker-compose up` to start the development environment
-4. Access the API documentation at `http://localhost:8000/docs`
-
 ## Development Setup
 
+### Prerequisites
+- Python 3.11+
+- Docker and Docker Compose
+- Git
+
+### Local Development
+
+1. Clone the repository:
 ```bash
-# Create virtual environment
+git clone https://github.com/yourusername/v2v-email-server.git
+cd v2v-email-server
+```
+
+2. Create and activate a virtual environment:
+```bash
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+```
 
-# Install dependencies
+3. Install dependencies:
+```bash
 pip install -r requirements.txt
+```
 
-# Run migrations
-alembic upgrade head
+4. Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
 
-# Start development server
+5. Start development services:
+```bash
+docker-compose up -d
+```
+
+6. Run the application:
+```bash
 uvicorn app.main:app --reload
+```
+
+The API will be available at `http://localhost:8000`
+API documentation will be at `http://localhost:8000/docs`
+
+### Running Tests
+
+```bash
+# Run unit tests
+pytest tests/unit
+
+# Run integration tests
+pytest tests/integration
+
+# Run with coverage
+pytest --cov=app tests/
+```
+
+### Code Quality
+
+```bash
+# Format code
+black app tests
+
+# Sort imports
+isort app tests
+
+# Lint code
+flake8 app tests
+
+# Type checking
+mypy app
 ```
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 

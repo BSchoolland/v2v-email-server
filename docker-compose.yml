@@ -9,24 +9,13 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+      - sqlite_data:/app/data
     environment:
-      - POSTGRES_SERVER=db
       - REDIS_HOST=redis
+      - SQLITE_DB=/app/data/v2v_email.db
     depends_on:
-      - db
       - redis
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-
-  db:
-    image: postgres:15-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=v2v_email
-    ports:
-      - "5432:5432"
 
   redis:
     image: redis:7-alpine
@@ -36,5 +25,5 @@ services:
       - redis_data:/data
 
 volumes:
-  postgres_data:
+  sqlite_data:
   redis_data: 

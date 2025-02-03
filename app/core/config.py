@@ -22,11 +22,8 @@ class Settings(BaseSettings):
     BACKEND_CORS_ORIGINS: List[str] = ["*"]  # Configure in production
     
     # Database
-    POSTGRES_SERVER: str = "localhost"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "postgres"
-    POSTGRES_DB: str = "v2v_email"
-    SQLALCHEMY_DATABASE_URI: str = ""
+    SQLITE_DB: str = "v2v_email.db"
+    SQLALCHEMY_DATABASE_URI: str = f"sqlite+aiosqlite:///./{SQLITE_DB}"
     
     # Redis
     REDIS_HOST: str = "localhost"
@@ -51,13 +48,6 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         case_sensitive=True,
     )
-    
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.SQLALCHEMY_DATABASE_URI = (
-            f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
-            f"@{self.POSTGRES_SERVER}/{self.POSTGRES_DB}"
-        )
 
 
 settings = Settings() 

@@ -46,13 +46,20 @@ The V2V Email Server is designed as a microservices-based architecture with the 
 - Connection management
 - Bounce handling
 
-### 5. Database (PostgreSQL)
+### 5. Database (SQLite)
 #### Tables:
 - `emails` - Email records and status
 - `templates` - Email templates
 - `bounces` - Bounce tracking
 - `analytics` - Delivery statistics
 - `clients` - API client information
+
+Benefits of SQLite:
+- Zero-configuration database
+- File-based storage
+- ACID compliant
+- Reliable and battle-tested
+- Perfect for moderate workloads
 
 ### 6. Monitoring Stack
 - Prometheus for metrics collection
@@ -85,10 +92,10 @@ The V2V Email Server is designed as a microservices-based architecture with the 
 
 ## Scalability
 
-The system is designed to scale horizontally:
+The system is designed to scale vertically:
 
 1. **API Layer**
-   - Multiple API instances behind load balancer
+   - Multiple worker processes
    - Stateless design
 
 2. **Queue System**
@@ -96,9 +103,9 @@ The system is designed to scale horizontally:
    - Multiple workers
 
 3. **Database**
-   - Read replicas
-   - Partitioning strategy
-   - Connection pooling
+   - Write-Ahead Logging
+   - Regular backups
+   - Optimized indexes
 
 ## Fault Tolerance
 
@@ -108,7 +115,7 @@ The system is designed to scale horizontally:
    - Load balancing
 
 2. **Data Persistence**
-   - Database backups
+   - Regular SQLite backups
    - Queue persistence
    - Log archiving
 

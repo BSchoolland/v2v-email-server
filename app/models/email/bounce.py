@@ -3,28 +3,21 @@ Bounce model for tracking email bounces.
 """
 from typing import Optional
 from uuid import UUID, uuid4
-import enum
 
 from sqlalchemy import String, Text, ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.core.enums import BounceType
 from app.models.base import Base
-
-
-class BounceType(str, enum.Enum):
-    """Bounce type enumeration."""
-    HARD = "hard"  # Permanent failure
-    SOFT = "soft"  # Temporary failure
-    BLOCK = "block"  # Blocked by recipient
-    SPAM = "spam"  # Marked as spam
-    TECHNICAL = "technical"  # Technical failure
-    UNKNOWN = "unknown"  # Unknown reason
 
 
 class Bounce(Base):
     """Bounce model."""
     
     __tablename__ = "bounces"
+    __table_args__ = (
+        {"sqlite_on_conflict": "ROLLBACK"}
+    )
 
     id: Mapped[UUID] = mapped_column(
         primary_key=True,

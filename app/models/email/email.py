@@ -1,33 +1,24 @@
 """
 Email model for tracking sent emails.
 """
-from datetime import datetime
 from typing import Optional
 from uuid import UUID, uuid4
 
-from sqlalchemy import String, Text, Boolean, ForeignKey, DateTime, Enum
+from sqlalchemy import String, Text, Boolean, ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-import enum
 
+from app.core.enums import EmailStatus
 from app.models.base import Base
+from app.models.email.mixins import EmailTrackingMixin
 
 
-class EmailStatus(str, enum.Enum):
-    """Email status enumeration."""
-    QUEUED = "queued"
-    SENDING = "sending"
-    SENT = "sent"
-    DELIVERED = "delivered"
-    FAILED = "failed"
-    BOUNCED = "bounced"
-    SPAM = "spam"
-    BLOCKED = "blocked"
-
-
-class Email(Base):
+class Email(EmailTrackingMixin, Base):
     """Email model."""
     
     __tablename__ = "emails"
+    __table_args__ = (
+        {"sqlite_on_conflict": "ROLLBACK"}
+    )
 
     id: Mapped[UUID] = mapped_column(
         primary_key=True,
@@ -72,26 +63,6 @@ class Email(Base):
     )
     variables: Mapped[Optional[str]] = mapped_column(
         Text,  # JSON string of variables used
-        nullable=True,
-    )
-    sent_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime(timezone=True),
-        nullable=True,
-    )
-    delivered_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime(timezone=True),
-        nullable=True,
-    )
-    opened_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime(timezone=True),
-        nullable=True,
-    )
-    clicked_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime(timezone=True),
-        nullable=True,
-    )
-    error_message: Mapped[Optional[str]] = mapped_column(
-        Text,
         nullable=True,
     )
     retry_count: Mapped[int] = mapped_column(

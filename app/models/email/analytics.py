@@ -14,6 +14,10 @@ class EmailAnalytics(Base):
     """Email analytics model for daily statistics."""
     
     __tablename__ = "email_analytics"
+    __table_args__ = (
+        {"sqlite_on_conflict": "ROLLBACK"},
+        {"unique_together": ("client_id", "date", "template_name")},
+    )
 
     id: Mapped[int] = mapped_column(
         primary_key=True,
@@ -70,8 +74,4 @@ class EmailAnalytics(Base):
 
     def __repr__(self) -> str:
         """String representation."""
-        return f"<EmailAnalytics {self.date}: {self.sent_count} sent>"
-
-    class Meta:
-        """Model metadata."""
-        unique_together = ("client_id", "date", "template_name") 
+        return f"<EmailAnalytics {self.date}: {self.sent_count} sent>" 

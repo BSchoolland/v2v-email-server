@@ -21,30 +21,26 @@ class Settings(BaseSettings):
     # CORS
     BACKEND_CORS_ORIGINS: List[str] = ["*"]  # Configure in production
     
-    # Database
-    POSTGRES_SERVER: str = "localhost"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "postgres"
-    POSTGRES_DB: str = "v2v_email"
-    SQLALCHEMY_DATABASE_URI: str = ""
+    # Mail Server Settings
+    MAIL_SERVER_HOSTNAME: str = "mail.yourdomain.com"
+    MAIL_SERVER_PORT: int = 25  # Standard SMTP port
+    MAIL_SERVER_USE_TLS: bool = True
+    MAIL_SERVER_TLS_PORT: int = 587  # TLS port
+    DKIM_PRIVATE_KEY_PATH: str = "/etc/opendkim/keys/mail.private"
+    DKIM_SELECTOR: str = "mail"  # DKIM selector for key rotation
     
-    # Redis
-    REDIS_HOST: str = "localhost"
-    REDIS_PORT: int = 6379
-    
-    # Email
-    SMTP_HOST: str = "localhost"
-    SMTP_PORT: int = 25
-    SMTP_USER: str = ""
-    SMTP_PASSWORD: str = ""
+    # Email Settings
     EMAILS_FROM_NAME: str = "V2V Email Server"
-    EMAILS_FROM_EMAIL: str = "noreply@localhost"
+    EMAILS_FROM_DOMAIN: str = "yourdomain.com"
+    EMAILS_FROM_EMAIL: str = "noreply@yourdomain.com"
     
     # Rate Limiting
     RATE_LIMIT_PER_MINUTE: int = 60
+    RATE_LIMIT_PER_DOMAIN: int = 100  # Limit emails per domain per minute
     
     # Logging
     LOG_LEVEL: str = "INFO"
+    MAIL_LOG_PATH: str = "/var/log/v2v-email/mail.log"
     
     model_config = SettingsConfigDict(
         env_file=".env",
